@@ -141,9 +141,7 @@ function markHeaders(header, level, text) {
 }
 
 
-
-module.exports = function insertTableOfContents(s) {
-
+function buildTOCData(s) {
     // empty the TOC
     TOC.splice(0, TOC.length);
 
@@ -155,37 +153,51 @@ module.exports = function insertTableOfContents(s) {
     // anchor all headings while building TOC
     s = s.replace(/<h([1-6])>(.*?)<\/h\1>/gi, markHeaders);
 
-
-    //#!
-    // now, need to replace any cross-references with links
-    /*
-    s = s.replace(/\b(sec\.|section|subsection|chapter)\s\[(.+?)\]/gi, (match, prefix, ref) => {
-        let link = table[ref.toLowerCase().trim()];
-        if(link) return `${prefix} <a ` + protect(`href="#toc${link}"`) + `>${link}</a>`;
-    });
-    */
-    
-    // Which TOC style should we use?
-    let tocStyle = MARKDEEP_CONFIG['tocStyle'];
-    if((tocStyle === 'auto') || (tocStyle === ''))
-        tocStyle = selectTOCStyle(s);
-
-
-    // no TOC, skip remainder
-    if(tocStyle === 'none' || TOC.length == 0) return s;
-
-
-    // render it
-    const tocContent = buildTOC(tocStyle);
-
-    // find insertion point
-    const AFTER_TITLES = MARKDEEP_CONFIG['tocInsertAfter'] || '<div class="afterTitles"></div>';
-    let insertLocation = s.indexOf(AFTER_TITLES);
-    // insert before first header if there is no match for insert location
-    if(insertLocation === -1) insertLocation = regexIndexOf.call(s, /((<a\s+\S+>&nbsp;<\/a>)\s*)*?<h\d>/i);
-    else insertLocation += AFTER_TITLES.length;
-
-    s = s.substring(0, insertLocation) + tocContent + s.substring(insertLocation);
-
     return s;
+}
+
+
+module.exports = {
+    buildTOCData: buildTOCData,
+    getTOCData: function() {
+        return TOC;
+    },
+
+    insertTableOfContents: function (s) {
+        
+        if(TOC.length == 0) s = buildTOCData(s);
+        
+        //#!
+        // now, need to replace any cross-references with links
+        /*
+        s = s.replace(/\b(sec\.|section|subsection|chapter)\s\[(.+?)\]/gi, (match, prefix, ref) => {
+            let link = table[ref.toLowerCase().trim()];
+            if(link) return `${prefix} <a ` + protect(`href="#toc${link}"`) + `>${link}</a>`;
+        });
+        */
+        
+        // Which TOC style should we use?
+        let tocStyle = MARKDEEP_CONFIG['tocStyle'];
+        if((tocStyle === 'auto') || (tocStyle === ''))
+            tocStyle = selectTOCStyle(s);
+
+
+        // no TOC, skip remainder
+        if(tocStyle === 'none' || TOC.length == 0) return s;
+
+
+        // render it
+        const tocContent = buildTOC(tocStyle);
+
+        // find insertion point
+        const AFTER_TITLES = MARKDEEP_CONFIG['tocInsertAfter'] || '<div class="afterTitles"></div>';
+        let insertLocation = s.indexOf(AFTER_TITLES);
+        // insert before first header if there is no match for insert location
+        if(insertLocation === -1) insertLocation = regexIndexOf.call(s, /((<a\s+\S+>&nbsp;<\/a>)\s*)*?<h\d>/i);
+        else insertLocation += AFTER_TITLES.length;
+
+        s = s.substring(0, insertLocation) + tocContent + s.substring(insertLocation);
+
+        return s;
+    }
 };

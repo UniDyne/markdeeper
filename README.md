@@ -20,9 +20,9 @@ This is very much a work in progress. There are still many things to clean up an
 there are some differences between the in-browser processing of Markdeep and the offline processing of this
 project that I have yet to tackle. Time and my own goals dictate what, if anything, gets fixed.
 
-Currently, this project is designed to take Markdown and return the equivalent HTML. Future work will include
-the ability to output complete HTML documents and PDFs directly to file. For now, this project will be used in
-my [nanosite](https://github.com/unidyne/nanosite/) project for Markdown processing.
+Currently, this project is designed to take Markdown and return the equivalent HTML. Future work will include the ability to output complete HTML documents and PDFs directly to file, and to handle TOC such that the caller can decide what to do with it.
+
+For now, this project will be used in my [nanosite](https://github.com/unidyne/nanosite/) project for Markdown processing.
 
 
 ### License

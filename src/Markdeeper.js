@@ -12,7 +12,7 @@ const processLists = require('./ListProc');
 
 const processDiagrams = require('./Diagrams');
 const processMaths = require('./Maths');
-const createTOC = require('./TableOfContents');
+const processTOC = require('./TableOfContents');
 
 
 global.MARKDEEP_CONFIG = {
@@ -538,7 +538,8 @@ var endNoteTable = {}, endNoteCount = 0;
 
     
     // If not in element mode and not an INSERT child, maybe add a TOC
-    if(MARKDEEP_CONFIG['asDoc']) str = createTOC(str);
+    s = processTOC.buildTOCData(s);
+    if(MARKDEEP_CONFIG['asDoc']) str = processTOC.insertTableOfContents(str);//createTOC(str);
 
     if(MARKDEEP_CONFIG['linkAPIDefinitions']) str = linkAPIDefinitions(str);
 
@@ -558,7 +559,7 @@ var endNoteTable = {}, endNoteCount = 0;
         str = '<html><head>\n<link rel="stylesheet" href="./src/styles.css">\n<link rel="stylesheet" href="node_modules/highlight.js/styles/github.css" >\n</head><body>' + str + '</body></html>';
     }
            
-    return str;
+    return {content: str, toc: processTOC.getTOCData()};
 
 }
 
