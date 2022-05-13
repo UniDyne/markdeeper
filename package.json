@@ -1,0 +1,24 @@
+{
+    "name": "markdeeper",
+    "version": "0.1",
+    "description": "Markdown processor based on Markdeep.",
+    "main": "main.js",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/unidyne/markdeeper.git"
+    },
+    "keywords": [
+        "Markdown",
+        "Markdeep"
+    ],
+    "author": "D. Oliver Brown <unidyne AT gmail.com>",
+    "license": "BSD 2-Clause",
+    "bugs": {
+        "url": "https://github.com/unidyne/markdeeper/issues"
+    },
+    "homepage": "https://github.com/unidyne/markdeeper#readme",
+    "dependencies": {
+        "highlight.js": "^11.5.1",
+        "mathjax-node": "^2.1.1"
+    }
+}
