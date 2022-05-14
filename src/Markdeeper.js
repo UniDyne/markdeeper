@@ -538,7 +538,7 @@ var endNoteTable = {}, endNoteCount = 0;
 
     
     // If not in element mode and not an INSERT child, maybe add a TOC
-    s = processTOC.buildTOCData(s);
+    str = processTOC.buildTOCData(str);
     if(MARKDEEP_CONFIG['asDoc']) str = processTOC.insertTableOfContents(str);//createTOC(str);
 
     if(MARKDEEP_CONFIG['linkAPIDefinitions']) str = linkAPIDefinitions(str);
