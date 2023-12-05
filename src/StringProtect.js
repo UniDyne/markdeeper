@@ -25,12 +25,12 @@ const CAPTION_PROTECT_REGEXP    = RegExp(CAPTION_PROTECT_CHARACTER + '[0-9a-w]{'
 
 let exposeRan = false, exposeCaptionRan = false;
 
-module.exports = {
+
 
     /** Given an arbitrary string, returns an escaped identifier
         string to temporarily replace it with to prevent Markdeep from
         processing the contents. See expose() */
-    protect: function(s) {
+    export function protect(s) {
         let i;
 
         if(protectedIndex.has(s)) i = protectedIndex.get(s);
@@ -46,44 +46,42 @@ module.exports = {
         //console.log(protectedIndex.has(s), i, s);
 
         return PROTECT_CHARACTER + i + PROTECT_CHARACTER;
-    },
+    }
 
 
     /** Given the escaped identifier string from protect(), returns
         the orginal string. */
-    expose: function(i) {
+    export function expose(i) {
         // Strip the escape character and parse, then look up in the
         // dictionary.
         var j = parseInt(i.substring(1, i.length - 1), PROTECT_RADIX);
         exposeRan = true;
         return protectedStringArray[j];
-    },
-    exposeAll: function(str) {
+    }
+
+    export function exposeAll(str) {
         var maxIterations = 50;
         exposeRan = true;
         while ((str.indexOf(PROTECT_CHARACTER) + 1) && exposeRan) {
             exposeRan = false;
-            str = str.replace(PROTECT_REGEXP, module.exports.expose);
+            str = str.replace(PROTECT_REGEXP, expose);
             --maxIterations;
         }
         if (maxIterations <= 0) { console.log('WARNING: Ran out of iterations while expanding protected substrings'); }
         return str;
-    },
+    }
 
     /** First-class function to pass to String.replace to protect a
         sequence defined by a regular expression. */
-    protector: function(match, protectee) {
+    export function protector(match, protectee) {
         return protect(protectee);
-    },
+    }
 
-    protectorWithPrefix: function(match, prefix, protectee) {
+    export function protectorWithPrefix(match, prefix, protectee) {
         return prefix + protect(protectee);
-    },
+    }
 
-
-
-
-    protectCaptions: function(str) {
+    export function protectCaptions(str) {
         // Temporarily protect image captions (or things that look like
         // them) because the following code is really slow at parsing
         // captions since they have regexps that are complicated to
@@ -96,20 +94,21 @@ module.exports = {
             while (i.length < PROTECT_DIGITS) { i = '0' + i; }
             return '![' + CAPTION_PROTECT_CHARACTER + i + CAPTION_PROTECT_CHARACTER + ']' + bracket;
         });
-    },
-    exposeCaption: function(i) {
+    }
+
+    export function exposeCaption(i) {
         // Strip the escape character and parse, then look up in the
         // dictionary.
         var j = parseInt(i.substring(1, i.length - 1), PROTECT_RADIX);
         exposeCaptionRan = true;
         return protectedCaptionArray[j];
-    },
-    exposeAllCaptions: function(str) {
+    }
+
+    export function exposeAllCaptions(str) {
         exposeCaptionRan = true;
         while ((str.indexOf(CAPTION_PROTECT_CHARACTER) + 1) && exposeCaptionRan) {
             exposeCaptionRan = false;
-            str = str.replace(CAPTION_PROTECT_REGEXP, module.exports.exposeCaption);
+            str = str.replace(CAPTION_PROTECT_REGEXP, exposeCaption);
         }
         return str;
     }
-};

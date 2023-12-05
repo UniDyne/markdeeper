@@ -1,7 +1,8 @@
-const { entag } = require('./StringUtils');
-const { protect } = require('./StringProtect');
+import { entag } from './StringUtils.js';
+import { protect } from './StringProtect.js';
 
-const hljs = require('highlight.js');
+//const hljs = require('highlight.js');
+import hljs from 'highlight.js';
 
 function parseFence(match, symbol, indent, lang, cssClass, cssSubClass, sourceCode, caption) {
     if (caption) {
@@ -69,8 +70,8 @@ function parseFence(match, symbol, indent, lang, cssClass, cssSubClass, sourceCo
 }
 
 
-module.exports = function(s, cssClass, symbol) {
+export default function processFences(s, cssClass, symbol) {
     var pattern = new RegExp('\n([ \\t]*)' + symbol + '{3,}([ \\t]*\\S*)([ \\t]+.+)?\n([\\s\\S]+?)\n\\1' + symbol + '{3,}[ \t]*\n([ \\t]*\\[.+(?:\n.+){0,3}\\])?', 'g');
 
     return s.replace(pattern, (match, indent, lang, cssSubClass, sourceCode, caption) => parseFence.apply(undefined, [match, symbol, indent, lang, cssClass, cssSubClass, sourceCode, caption]));
-};
+}

@@ -1,5 +1,7 @@
-const { isolated, entag, maybeShowLabel } = require('./StringUtils');
-const { protect, protectCaptions, exposeAllCaptions } = require('./StringProtect');
+import MARKDEEP_CONFIG from "./constants.js";
+
+import { isolated, entag, maybeShowLabel } from './StringUtils.js';
+import { protect, protectCaptions, exposeAllCaptions } from './StringProtect.js';
 
 
 
@@ -141,7 +143,7 @@ function formatCaptionedImage(match, preSpaces, caption, maybeQuote, url, attrib
         postSpaces;
 }
 
-module.exports = function(str) {
+export default function processMedia(str) {
     str = protectCaptions(str);
 
     str = str.replace(/(!\[.*?\])\[([^<>\[\]\s]+?)([ \t][^\n\[\]]*?)?\]/g, rewriteReferenceImage);
@@ -159,7 +161,7 @@ module.exports = function(str) {
 
     str = exposeAllCaptions(str);
     return str;
-};
+}
 
 /*
 #! TODO:

@@ -1,5 +1,5 @@
-const { entag } = require('./StringUtils');
-const { protect } = require('./StringProtect');
+import { entag } from './StringUtils.js';
+import { protect } from './StringProtect.js';
 
 
 
@@ -92,4 +92,4 @@ function parseTable(match) {
 
 
 
-module.exports = function(s) { return s.replace(TABLE_REGEXP, parseTable); };
+export default function processTables(s) { return s.replace(TABLE_REGEXP, parseTable); };

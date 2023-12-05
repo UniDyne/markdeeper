@@ -1,6 +1,4 @@
-const { strict } = require('assert');
-const mathjax = require('mathjax-node');
-const { replaceMatched } = require('./StringUtils');
+import mathjax from 'mathjax-node';
 
 
 const RXMATHS = [
@@ -13,7 +11,7 @@ const RXMATHS = [
 const RXINLINE = /\\\((.+?)\\\)/g;
 
 
-module.exports = async function replaceMaths(str) {
+export default async function processMaths(str) {
 
     mathjax.config({
         MathJax: {

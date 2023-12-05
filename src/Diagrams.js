@@ -1,5 +1,5 @@
-const { entag, equalizeLineLengths, isASCIILetter, escapeHTMLEntities } = require('./StringUtils');
-const { protect } = require('./StringProtect');
+import { entag, equalizeLineLengths, isASCIILetter, escapeHTMLEntities } from './StringUtils.js';
+import { protect } from './StringProtect.js';
 
 
 /** Enable for debugging to view character bounds in diagrams */
@@ -1530,7 +1530,7 @@ function diagramToSVG(diagramString, alignmentHint) {
 }
 
 
-module.exports = function replaceDiagrams(str) {
+export default function processDiagrams(str) {
     var result = extractDiagram(str);
     if (result.diagramString) {
         var CAPTION_REGEXP = /^\n*[ \t]*\[[^\n]+\][ \t]*(?=\n)/;
@@ -1546,7 +1546,7 @@ module.exports = function replaceDiagrams(str) {
         var diagramSVG = diagramToSVG(result.diagramString, result.alignmentHint);
         var captionAbove = true; // option('captionAbove', 'diagram')
 
-        return result.beforeString + (result.caption && captionAbove ? result.caption : '') + diagramSVG + (result.caption && !captionAbove ? result.caption : '') + '\n' + replaceDiagrams(result.afterString);
+        return result.beforeString + (result.caption && captionAbove ? result.caption : '') + diagramSVG + (result.caption && !captionAbove ? result.caption : '') + '\n' + processDiagrams(result.afterString);
     } else {
         return str;
     }

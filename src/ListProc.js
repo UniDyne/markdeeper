@@ -1,5 +1,5 @@
 //const { entag } = require('./StringUtils');
-const { protect } = require('./StringProtect');
+import { protect } from './StringProtect.js';
 
 // Identify list blocks:
 // Blank line or line ending in colon, line that starts with #., *, +, -, ☑, or ☐
@@ -103,7 +103,7 @@ function parseList(match, prefix, block) {
 }
 
 
-module.exports = function(s) {
+export default function processLists(s) {
     // Identify task list bullets in a few patterns and reformat them to a standard format for
     // easier processing.
     s = s.replace(/^(\s*)(?:-\s*)?(?:\[ \]|\u2610)(\s+)/mg, '$1\u2610$2');
@@ -119,4 +119,4 @@ module.exports = function(s) {
     };
 
     return s;
-};
+}

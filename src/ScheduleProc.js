@@ -1,5 +1,5 @@
-const { entag } = require('./StringUtils');
-const { protect } = require('./StringProtect');
+import { entag } from './StringUtils.js';
+import { protect } from './StringProtect.js';
 
 /** 
     Identifies schedule lists, which look like:
@@ -265,11 +265,11 @@ function parseSchedule(schStr, scheduleNumber) {
 
 
 
-module.exports = function(s) {
+export default function processSchedules(s) {
     try {
         var scheduleNumber = 0;
         s = s.replace(new RegExp(BLANK_LINE + '(' + ENTRY + '){2,}', 'gm'), schedule => {++scheduleNumber; parseSchedule.call(undefined, schedule, scheduleNumber); });
     } catch(e) {}
 
     return s;
-};
+}

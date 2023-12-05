@@ -1,5 +1,5 @@
-const { entag, unescapeHTMLEntities, removeHTMLTags } = require('./StringUtils');
-const { protect } = require('./StringProtect');
+import { entag, unescapeHTMLEntities, removeHTMLTags } from './StringUtils.js';
+import { protect } from './StringProtect.js';
 
 /**
  Term
@@ -84,6 +84,6 @@ function parseDefinition(block) {
 }
 
 
-module.exports = function(s) {
+export default function processDefinitions(s) {
     return s.replace(new RegExp('(' + TERM + DEFINITION + ')+', 'gm'), parseDefinition);
-};
+}

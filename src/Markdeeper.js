@@ -163,13 +163,21 @@ async function processMarkdown(str, options) {
 
 
 // HEADERS
-
+// ## TODO :: Add table of contents code here...
     // SECTION HEADERS
     // This is common code for numbered headers. No-number ATX headers are processed
     // separately
+    let TOC = [];
     function makeHeaderFunc(level) {
-        return function (match, header) {
-            return '\n\n</p>\n<a ' + protect('class="target" name="' + createSlug(removeHTMLTags(exposeAll(header))) + '"') + 
+        return function (match, header, offset) {
+            let entry = {
+                offset: offset,
+                header: removeHTMLTags(exposeAll(header)),
+                slug: createSlug(removeHTMLTags(exposeAll(header))),
+                level: level
+            };
+            TOC.push(entry);
+            return '\n\n</p>\n<a ' + protect('class="target" name="' + entry.slug + '"') + 
                 '>&nbsp;</a>' + entag('h' + level, header) + '\n<p>\n\n';
         }
     }
@@ -198,6 +206,14 @@ async function processMarkdown(str, options) {
         str = str.replace(new RegExp(/^\s*/.source + '\\(#{' + i + ',' + i +'}\\)(?:[ \t])([^\n]+?)\\(?#*\\)?\\n[ \t]*\n', 'gm'), 
                      '\n</p>\n' + entag('div', '$1', protect('class="nonumberh' + i + '"')) + '\n<p>\n\n');
     }
+    
+    // Sort TOC based on where elements were found...
+    // This *may* have problems depending on the length of the headers
+    // and the amount of chars between since offsets will not be from original text
+    // but are from where found while inserting headers
+    TOC.sort((a,b) => a.offset - b.offset);
+
+    TOC.forEach()
 
 
 
