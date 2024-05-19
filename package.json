@@ -3,6 +3,7 @@
     "version": "0.1",
     "description": "Markdown processor based on Markdeep.",
     "main": "main.js",
+    "type": "module",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/unidyne/markdeeper.git"

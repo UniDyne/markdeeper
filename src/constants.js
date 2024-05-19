@@ -14,5 +14,3 @@ export const MARKDEEP_CONFIG = {
 };
 
 export default MARKDEEP_CONFIG;
-
-
