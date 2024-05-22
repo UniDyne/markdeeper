@@ -60,23 +60,6 @@ export async function processDocument(str) {
 	return await processMarkdown(str, {asDoc: true});
 }
 
-/*
-module.exports = {
-    init: function(options) {
-        Object.assign(MARKDEEP_CONFIG, options);
-    },
-
-    processSection: async function(str) {
-        return await processMarkdown(str, {asDoc: false});
-    },
-
-    processDocument: async function(str) {
-        return await processMarkdown(str, {asDoc: true});
-    }
-};
-*/
-
-
 
 
 function maybeShowLabel(url, tag) {
