@@ -47,7 +47,7 @@ import processMaths from './src/Maths.js';
 import { buildTOCData, insertTableOfContents, getTOCData } from './src/TableOfContents.js';
 
 
-/*
+
 export function init(options) {
 	Object.assign(MARKDEEP_CONFIG, options);
 }
@@ -59,8 +59,8 @@ export async function processSection(str) {
 export async function processDocument(str) {
 	return await processMarkdown(str, {asDoc: true});
 }
-*/
 
+/*
 module.exports = {
     init: function(options) {
         Object.assign(MARKDEEP_CONFIG, options);
@@ -74,7 +74,7 @@ module.exports = {
         return await processMarkdown(str, {asDoc: true});
     }
 };
-
+*/
 
 
 
