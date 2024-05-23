@@ -1,4 +1,4 @@
-import mathjax from 'mathjax-node';
+import mathjax from 'mathjax';
 
 
 const RXMATHS = [
