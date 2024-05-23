@@ -12,13 +12,15 @@ const RXINLINE = /\\\((.+?)\\\)/g;
 
 
 export default async function processMaths(str) {
+    const mathjax = await require('mathjax').init({ tex: { equationNumbers: {autoNumber:"AMS"}} });
 
+    /*
     mathjax.config({
         MathJax: {
             TeX: { equationNumbers: {autoNumber:"AMS"}}
         }
-    });
-    mathjax.start();
+    });*/
+    //mathjax.start();
 
     let inline = false;
     function processTeX(tex) {
