@@ -12,7 +12,7 @@ const RXINLINE = /\\\((.+?)\\\)/g;
 
 
 export default async function processMaths(str) {
-    const mathjax = await require('mathjax').init({ tex: { equationNumbers: {autoNumber:"AMS"}} });
+    const mathjax = await import('mathjax').init({ tex: { equationNumbers: {autoNumber:"AMS"}} });
 
     /*
     mathjax.config({
