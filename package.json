@@ -19,7 +19,7 @@
     },
     "homepage": "https://github.com/unidyne/markdeeper#readme",
     "dependencies": {
-        "highlight.js": "^11.5.1",
-        "mathjax-node": "^2.1.1"
+        "highlight.js": "^11.9.0",
+        "mathjax": "^3.2.2"
     }
 }

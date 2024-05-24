@@ -1,4 +1,12 @@
-import mathjax from 'mathjax-node';
+
+// Define "require"
+// stand on our head to make ES6 and CommonJS work together...
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+
+const MathJax = await require('mathjax').init({
+    loader: {load: ['input/tex', 'output/svg']}
+}).catch((err) => console.log(err.message));
 
 
 const RXMATHS = [
@@ -12,31 +20,15 @@ const RXINLINE = /\\\((.+?)\\\)/g;
 
 
 export default async function processMaths(str) {
-
-    mathjax.config({
-        MathJax: {
-            TeX: { equationNumbers: {autoNumber:"AMS"}}
-        }
-    });
-    mathjax.start();
-
     let inline = false;
     function processTeX(tex) {
+        // I know a promise isn't needed here...
+        // keeping in case we change this to tex2svgPromise later...
         return new Promise(resolve => {
-            // typeset custom commands
-            mathjax.typeset({
-                math: tex,
-                format: inline ? "inline-TeX" : "TeX",
-                svg: true
-            }, function(data) {
-                if(data.errors) {
-                    console.log(data.errors);
-                    resolve('');
-                } else {
-                    if(inline) resolve(data.svg);
-                    else resolve(`<div class="MathJax" style="text-align:center">${data.svg}</div>`);
-                }
-            });
+            let svg = MathJax.tex2svg(tex, {display:true});
+            svg = MathJax.startup.adaptor.outerHTML(svg);
+            if(inline) return resolve(svg);
+            else resolve(`<div class="MathJax" style="text-align:center">${svg}</div>`);
         });
     }
 
