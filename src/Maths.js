@@ -1,4 +1,11 @@
-import mathjax from 'mathjax';
+
+// Define "require"
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+
+const MathJax = await require('mathjax').init({
+    loader: {load: ['input/tex', 'output/svg']}
+}).catch((err) => console.log(err.message));
 
 
 const RXMATHS = [
@@ -12,21 +19,18 @@ const RXINLINE = /\\\((.+?)\\\)/g;
 
 
 export default async function processMaths(str) {
-    const mathjax = await (await import('mathjax')).init({ tex: { equationNumbers: {autoNumber:"AMS"}} });
-
-    /*
-    mathjax.config({
-        MathJax: {
-            TeX: { equationNumbers: {autoNumber:"AMS"}}
-        }
-    });*/
-    //mathjax.start();
-
     let inline = false;
     function processTeX(tex) {
         return new Promise(resolve => {
+            let svg = MathJax.tex2svg(tex, {display:true});
+            if(inline) return resolve(svg);
+            else resolve(`<div class="MathJax" style="text-align:center">${svg}</div>`);
+        });
+
+        //return new Promise(resolve => {
             // typeset custom commands
-            mathjax.typeset({
+            /*
+            MathJax.typeset({
                 math: tex,
                 format: inline ? "inline-TeX" : "TeX",
                 svg: true
@@ -39,7 +43,8 @@ export default async function processMaths(str) {
                     else resolve(`<div class="MathJax" style="text-align:center">${data.svg}</div>`);
                 }
             });
-        });
+            */
+        //});
     }
 
     // setup custom commands
