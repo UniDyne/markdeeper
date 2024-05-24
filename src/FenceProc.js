@@ -34,18 +34,18 @@ function parseFence(match, symbol, indent, lang, cssClass, cssSubClass, sourceCo
         var result;
         if (lang === 'none') {
             //result = hljs.highlightAuto(sourceCode, []);
-            result = hljs.highlightAuto(sourceCode).value;
+            result = hljs.highlightAuto(sourceCode);
         } else if (lang === undefined) {
             //result = hljs.highlightAuto(sourceCode);
-            result = hljs.highlightAuto(sourceCode).value;
+            result = hljs.highlightAuto(sourceCode);
         } else {
             try {
                 //result = hljs.highlight(lang, sourceCode, true);
-                result = hljs.highlight(sourceCode, {language:lang}).value;
+                result = hljs.highlight(sourceCode, {language:lang});
             } catch (e) {
                 // Some unknown language specified. Force to no formatting.
                 //result = hljs.highlightAuto(sourceCode, []);
-                result = hljs.highlightAuto(sourceCode).value;
+                result = hljs.highlightAuto(sourceCode);
             }
         }
 
