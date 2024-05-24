@@ -1,5 +1,6 @@
 
 // Define "require"
+// stand on our head to make ES6 and CommonJS work together...
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 
@@ -21,30 +22,14 @@ const RXINLINE = /\\\((.+?)\\\)/g;
 export default async function processMaths(str) {
     let inline = false;
     function processTeX(tex) {
+        // I know a promise isn't needed here...
+        // keeping in case we change this to tex2svgPromise later...
         return new Promise(resolve => {
             let svg = MathJax.tex2svg(tex, {display:true});
+            svg = MathJax.startup.adaptor.outerHTML(svg);
             if(inline) return resolve(svg);
             else resolve(`<div class="MathJax" style="text-align:center">${svg}</div>`);
         });
-
-        //return new Promise(resolve => {
-            // typeset custom commands
-            /*
-            MathJax.typeset({
-                math: tex,
-                format: inline ? "inline-TeX" : "TeX",
-                svg: true
-            }, function(data) {
-                if(data.errors) {
-                    console.log(data.errors);
-                    resolve('');
-                } else {
-                    if(inline) resolve(data.svg);
-                    else resolve(`<div class="MathJax" style="text-align:center">${data.svg}</div>`);
-                }
-            });
-            */
-        //});
     }
 
     // setup custom commands
