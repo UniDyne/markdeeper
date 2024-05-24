@@ -1,6 +1,6 @@
 {
     "name": "markdeeper",
-    "version": "0.1",
+    "version": "0.5",
     "description": "Markdown processor based on Markdeep.",
     "main": "main.js",
     "type":"module",
