@@ -33,15 +33,19 @@ function parseFence(match, symbol, indent, lang, cssClass, cssSubClass, sourceCo
         lang = lang ? lang.trim() : undefined;
         var result;
         if (lang === 'none') {
-            result = hljs.highlightAuto(sourceCode, []);
+            //result = hljs.highlightAuto(sourceCode, []);
+            result = hljs.highlightAuto(sourceCode).value;
         } else if (lang === undefined) {
-            result = hljs.highlightAuto(sourceCode);
+            //result = hljs.highlightAuto(sourceCode);
+            result = hljs.highlightAuto(sourceCode).value;
         } else {
             try {
-                result = hljs.highlight(lang, sourceCode, true);
+                //result = hljs.highlight(lang, sourceCode, true);
+                result = hljs.highlight(sourceCode, {language:lang}).value;
             } catch (e) {
                 // Some unknown language specified. Force to no formatting.
-                result = hljs.highlightAuto(sourceCode, []);
+                //result = hljs.highlightAuto(sourceCode, []);
+                result = hljs.highlightAuto(sourceCode).value;
             }
         }
 
